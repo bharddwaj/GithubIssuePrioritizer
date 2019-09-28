@@ -13,7 +13,6 @@ def main(src):
     if not src:
         err("Argument list empty")
         quit()
-    print(src)
     for path in src:
         with open(path, 'r') as f:
             txt = f.read()
