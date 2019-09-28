@@ -1,7 +1,5 @@
 import click
-
-def run(text):
-    return text
+from model import run
 
 def err(*args, sep=' ', end='\n'):
     print("ERROR: ", end='')
