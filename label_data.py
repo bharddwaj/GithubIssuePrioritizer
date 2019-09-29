@@ -27,7 +27,7 @@ def pivot_labels(data):
     data['dummy'] = 1
     data = data.pivot_table(values='dummy',
                             columns='other_labels',
-                            index=['Unnamed: 0', 'issue_title', 'body', 'priority'])
+                            index=[col for col in data.columns if col != 'other_labels']
     return data
 
 
