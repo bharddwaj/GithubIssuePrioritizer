@@ -4,7 +4,22 @@ FROM (
   SELECT
     REGEXP_REPLACE(title, r"\s{2,}", ',') AS issue_title,
     REGEXP_REPLACE(body, r"\s{2,}", ',') AS body,
-    ARRAY_TO_STRING(names, ",") AS labels
+    (
+    SELECT
+      REGEXP_REPLACE(LOWER(name), r'[^0-9a-zA-Z ]', " ")
+    FROM
+      UNNEST(names) AS name
+    WHERE
+      REGEXP_CONTAINS(LOWER(name), "priority")
+    LIMIT
+      1) AS priority,
+    REGEXP_REPLACE(ARRAY_TO_STRING(ARRAY(
+        SELECT
+          LOWER(name)
+        FROM
+          UNNEST(names) AS name
+        WHERE
+          NOT REGEXP_CONTAINS(LOWER(name), "priority")), ","), r'[^0-9a-zA-Z ]', " ") AS other_labels
   FROM (
     SELECT
       LOWER(TRIM(REGEXP_REPLACE(JSON_EXTRACT(payload,
@@ -14,7 +29,7 @@ FROM (
       ARRAY(
       SELECT
         JSON_EXTRACT_SCALAR(split_items,
-          '$.name') AS names
+          '$.name')
       FROM (
         SELECT
           CONCAT('{', REGEXP_REPLACE(split_items, r'^\[{|}\]$', ''), '}') AS split_items
@@ -35,4 +50,4 @@ FROM (
     AND ARRAY_LENGTH(SPLIT(title, ' ')) >= 3
     AND ARRAY_LENGTH(names) >= 1 )
 WHERE
-  REGEXP_CONTAINS(lower(labels), "priority")
+  priority IS NOT NULL
