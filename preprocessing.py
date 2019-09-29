@@ -19,8 +19,9 @@ def preprocess(path):
     # for i in range(len(X[0])):
     #     new_x.append((X[0][i],X[1][i]))
     new_x = DataFrame.from_records(X)
-    X_train, X_test, y_train, y_test = train_test_split(X[1], y, test_size=0.33, random_state=42)
-    X_train, X_val, y_train, y_val = train_test_split(X_train, y_train, test_size=0.2, random_state=1)
+    #print(f"{X[1][0]}")
+    X_train, X_test, y_train, y_test = train_test_split(X[1], y, test_size=0.4, random_state=42)
+    X_train, X_val, y_train, y_val = train_test_split(X_train, y_train, test_size=0.3, random_state=1)
 
     return X_train, X_test, X_val,y_val, y_train, y_test
 # TODO Fill this in with actual serialization and deserialization process
