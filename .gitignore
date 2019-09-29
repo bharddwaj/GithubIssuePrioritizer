@@ -3,4 +3,5 @@ playground.py
 .ipynb_checkpoints
 hackNY.ipynb
 basic_chess.py
+githubIssues.csv
 env/
