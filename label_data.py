@@ -20,12 +20,23 @@ def normalize_data(data):
     data['priority'] = data['priority'].map(normalize_priority)
     return data[data['priority'].notnull()]
 
+def pivot_labels(data):
+    data['other_labels'] = data['other_labels'].str.split(',')
+    data = data.explode('other_labels')
+    data['other_labels'] = data['other_labels'].str.strip()
+    data['dummy'] = 1
+    data = data.pivot_table(values='dummy',
+                            columns='other_labels',
+                            index=['Unnamed: 0', 'issue_title', 'body', 'priority'])
+    return data
+
 
 def main():
-    if __name__ == '__main__':
-        data = pd.read_csv("github-issues.csv")
-        normalized_data = normalize_data(data)
-        normalized_data.to_csv("normalized-github-issues.csv")
+    data = pd.read_csv("github-issues.csv")
+    normalized_data = normalize_data(data)
+    normalized_label_data = pivot_labels(data)
+    normalized_data.to_csv("normalized-github-issues.csv")
 
 
-main()
+if __name__ == '__main__':
+    main()
