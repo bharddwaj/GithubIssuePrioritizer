@@ -24,9 +24,12 @@ def train(path):
 
 def run(data):
 	loaded_model = pickle.load(open('LogisticRegression.sav', 'rb'))
-	tfidf =  TfidfVectorizer(stop_words="english")
-	data = tfidf.fit_transform([data])
-	return loaded_model.predict(data)
+	tfidf3 = TfidfVectorizer(stop_words="english")
+	with open('vectorizer.pickle', 'r') as f:
+	 	vectorizer = pickle.load(f)
+	 	data = vectorizer.transform(data)
+		 return loaded_model.predict(data)
+	
 
 def run2(path):
 	model = tf.keras.models.Sequential([
@@ -46,4 +49,4 @@ def run2(path):
 
 if __name__ == "__main__":
 	print(train("normalized-github-issues.csv"))
-	print(run("test.txt"))
+	print(run("whatever blah blah We are taking this very seriously"))
