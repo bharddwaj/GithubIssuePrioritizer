@@ -5,7 +5,9 @@ from sklearn.svm import LinearSVC
 from sklearn.utils import shuffle
 from sklearn.metrics import accuracy_score
 from preprocessing import preprocess
-def run(path):
+from sklearn.feature_extraction.text import TfidfVectorizer
+import pickle
+def train(path):
 	
 	X_train, X_test, X_val,y_val, y_train, y_test = preprocess(path)
 	clf = LogisticRegression(random_state=0, solver='lbfgs',multi_class='multinomial')
@@ -15,8 +17,16 @@ def run(path):
 	val_accuracy = accuracy_score(y_val, y_pred)
 	y_pred = clf.predict(X_test)
 	test_accuracy = accuracy_score(y_test, y_pred)
+
+	filename = 'LogisticRegression.sav'
+	pickle.dump(clf, open(filename, 'wb'))
 	return [val_accuracy,test_accuracy]
 
+def run(data):
+	loaded_model = pickle.load(open('LogisticRegression.sav', 'rb'))
+	tfidf =  TfidfVectorizer(stop_words="english")
+	data = tfidf.fit_transform([data])
+	return loaded_model.predict(data)
 
 def run2(path):
 	model = tf.keras.models.Sequential([
@@ -35,4 +45,5 @@ def run2(path):
 
 
 if __name__ == "__main__":
-	print(run("normalized-github-issues.csv"))
+	print(train("normalized-github-issues.csv"))
+	print(run("test.txt"))
