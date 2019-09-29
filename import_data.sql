@@ -19,7 +19,7 @@ FROM (
         FROM
           UNNEST(names) AS name
         WHERE
-          NOT REGEXP_CONTAINS(LOWER(name), "priority")), ","), r'[^0-9a-zA-Z ]', " ") AS other_labels
+          NOT REGEXP_CONTAINS(LOWER(name), "priority")), ","), r'[^0-9a-zA-Z, ]', " ") AS other_labels
   FROM (
     SELECT
       LOWER(TRIM(REGEXP_REPLACE(JSON_EXTRACT(payload,
