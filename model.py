@@ -13,3 +13,19 @@ def run(path):
 	return accuracy_score(y_val, y_pred)
 
 
+def run2(path):
+	model = tf.keras.models.Sequential([
+		tf.keras.layers.Flatten(input_shape=(28, 28)), #need to change input size
+		tf.keras.layers.Dense(128, activation='relu'),
+		tf.keras.layers.Dropout(0.2),
+		tf.keras.layers.Dense(10, activation='softmax')
+	])
+
+	model.compile(optimizer='adam',loss='sparse_categorical_crossentropy',metrics=['accuracy'])
+	X_train, X_test, X_val,y_val, y_train, y_test = preprocess(path)
+	model.fit(X_train,y_train, validation_data=(X_val, y_val))
+	accuracy = model.evaluate(X_test,y_test)
+	return accuracy
+
+if __name__ == "__main__":
+	run("normalized-github-issues.csv")
