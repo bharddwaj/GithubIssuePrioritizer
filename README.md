@@ -1,2 +1,3 @@
-# hackNY2019
-This is our project for this hackathon.
+# Predicting Github Issue Piorities 
+
+[Link to pipeline design](https://docs.google.com/drawings/d/1t_DUcoo76UntM3K3sCGEEeblyhOuipmvnfuRM3uMMCI/edit?usp=sharing)
