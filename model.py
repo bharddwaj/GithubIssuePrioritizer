@@ -28,7 +28,7 @@ def run(data):
 	with open('vectorizer.pickle', 'r') as f:
 	 	vectorizer = pickle.load(f)
 	 	data = vectorizer.transform(data)
-		 return loaded_model.predict(data)
+	return loaded_model.predict(data)
 	
 
 def run2(path):
@@ -49,4 +49,4 @@ def run2(path):
 
 if __name__ == "__main__":
 	print(train("normalized-github-issues.csv"))
-	print(run("whatever blah blah We are taking this very seriously"))
+	#print(run("whatever blah blah We are taking this very seriously"))
