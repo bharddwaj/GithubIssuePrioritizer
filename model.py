@@ -28,4 +28,4 @@ def run2(path):
 	return accuracy
 
 if __name__ == "__main__":
-	run("normalized-github-issues.csv")
+	print(run("normalized-github-issues.csv"))
