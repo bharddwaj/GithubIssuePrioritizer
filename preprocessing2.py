@@ -26,7 +26,7 @@ def filter_priority_labels(keywords):
         count += 1
 
     for index, row in data.iterrows():
-        if index in indices:
+        if not index in indices:
             data = data.drop(index)
     return data
 
