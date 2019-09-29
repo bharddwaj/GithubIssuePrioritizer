@@ -1,9 +1,10 @@
 import pandas as pd
-data = pd.read_csv("githubIssues.csv")
-#keywords = ["priority","bug","enhancement","high","medium","low"]
+
+keywords = ["priority","bug","enhancement","high","medium","low"]
 def filter_priority_labels(keywords):
     ''':keywords list of possible labels
         this function keeps the rows that have the possible labels'''
+    data = pd.read_csv("githubIssues.csv")
     names = data['labels']
     indices = []
     def check_for_keywords(x):
@@ -27,6 +28,7 @@ def filter_priority_labels(keywords):
     for index, row in data.iterrows():
         if index in indices:
             data = data.drop(index)
+    return data
 
 #print(len(indices))
 #print(len(data))
