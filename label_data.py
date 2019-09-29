@@ -24,10 +24,13 @@ def pivot_labels(data):
     data['other_labels'] = data['other_labels'].str.split(',')
     data = data.explode('other_labels')
     data['other_labels'] = data['other_labels'].str.strip()
+    data.drop(data['other_labels'] == '', axis=0)
+
     data['dummy'] = 1
     data = data.pivot_table(values='dummy',
                             columns='other_labels',
-                            index=[col for col in data.columns if col != 'other_labels']
+                            index=['issue_title', 'body', 'priority'])
+    print(data.columns)
     return data
 
 
@@ -35,7 +38,7 @@ def main():
     data = pd.read_csv("github-issues.csv")
     normalized_data = normalize_data(data)
     normalized_label_data = pivot_labels(data)
-    normalized_data.to_csv("normalized-github-issues.csv")
+    normalized_label_data.to_csv("normalized-github-issues.csv", index=False)
 
 
 if __name__ == '__main__':
