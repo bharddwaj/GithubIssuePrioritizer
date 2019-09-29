@@ -13,6 +13,7 @@ def run(data):
 	number_of_responses = 3
 	length_of_issue = 2
 	label = 0
-	train = 
+	clf = LogisticRegression(random_state=0, solver='lbfgs',multi_class='multinomial')
+	clf.fit(train_features,train_labels)
 
 
