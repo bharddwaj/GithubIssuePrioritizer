@@ -22,13 +22,13 @@ def train(path):
 	pickle.dump(clf, open(filename, 'wb'))
 	return [val_accuracy,test_accuracy]
 
-def run(data):
-	loaded_model = pickle.load(open('LogisticRegression.sav', 'rb'))
-	tfidf3 = TfidfVectorizer(stop_words="english")
-	with open('vectorizer.pickle', 'r') as f:
-	 	vectorizer = pickle.load(f)
-	 	data = vectorizer.transform(data)
-	return loaded_model.predict(data)
+# def run(data):
+# 	loaded_model = pickle.load(open('LogisticRegression.sav', 'rb'))
+# 	tfidf3 = TfidfVectorizer(stop_words="english")
+# 	with open('vectorizer.pickle', 'r') as f:
+# 	 	vectorizer = pickle.load(f)
+# 	 	data = vectorizer.transform(data)
+# 	return loaded_model.predict(data)
 	
 
 # def run2(path):
