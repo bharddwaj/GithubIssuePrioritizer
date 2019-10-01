@@ -24,9 +24,4 @@ def preprocess(path):
     X_train, X_val, y_train, y_val = train_test_split(X_train, y_train, test_size=0.3, random_state=1)
 
     return X_train, X_test, X_val,y_val, y_train, y_test
-# TODO Fill this in with actual serialization and deserialization process
-model = None
-dump(model, 'models/model')
-model = load('models/model')
 
-print(model)
