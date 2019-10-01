@@ -33,6 +33,7 @@ def train(path):
 	
 
 def run2(path):
+	'''Didn't have this working for the hackathon'''
 	X_train, X_test, X_val,y_val, y_train, y_test = preprocess(path)
 	def change(x):
 		if x == -1:
