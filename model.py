@@ -1,6 +1,5 @@
 import tensorflow as tf
-from sklearn.discriminant_analysis import LinearDiscriminantAnalysis
-from sklearn.linear_model import SGDClassifier,LogisticRegression
+from sklearn.linear_model import LogisticRegression
 from sklearn.svm import LinearSVC 
 from sklearn.utils import shuffle
 from sklearn.metrics import accuracy_score
@@ -23,16 +22,38 @@ def train(path):
 	pickle.dump(clf, open(filename, 'wb'))
 	return [val_accuracy,test_accuracy]
 
-# def run(data):
-# 	loaded_model = pickle.load(open('LogisticRegression.sav', 'rb'))
-# 	tfidf3 = TfidfVectorizer(stop_words="english")
-# 	with open('vectorizer.pickle', 'r') as f:
-# 	 	vectorizer = pickle.load(f)
-# 	 	data = vectorizer.transform(data)
-# 	return loaded_model.predict(data)
+def run_logistic_model(data):
+	'''Didn't have this working for the hackathon'''
+	''':data is a list of strings '''
+	loaded_model = pickle.load(open('models/LogisticRegression.sav', 'rb'))
+	
+	
+	tf1 = pickle.load(open("models/vectorizer.pickle", 'rb'))
+	# Create new tfidfVectorizer with old vocabulary
+	tfidf3 = TfidfVectorizer(stop_words="english",vocabulary = tf1.vocabulary_)
+	transformed_data = tfidf3.fit_transform(data)
+	return loaded_model.predict(transformed_data)
+
+def run_neural_network(data):
+	'''Didn't have this working for the hackathon'''
+	''':data is a list of strings '''
+	''' 0 = medium 1 = high 2 = medium priorities'''
+	loaded_model = tf.keras.models.load_model('models/sequential_32_Dropout.h5')
+	
+	
+	tf1 = pickle.load(open("models/vectorizer.pickle", 'rb'))
+	# Create new tfidfVectorizer with old vocabulary
+	tfidf3 = TfidfVectorizer(stop_words="english",vocabulary = tf1.vocabulary_)
+	transformed_data = tfidf3.fit_transform(data)
+	count = 0
+	prediction = tf.convert_to_tensor(loaded_model.predict(transformed_data))
+	print(prediction)
+	return tf.math.argmax(prediction)
 	
 
-def run2(path):
+	
+
+def train_neural_network(path):
 	'''Didn't have this working for the hackathon'''
 	X_train, X_test, X_val,y_val, y_train, y_test = preprocess(path)
 	def change(x):
@@ -59,10 +80,13 @@ def run2(path):
 	model.fit(X_train,y_train, validation_data=(X_val, y_val),epochs = 6)
 	evaluation = model.evaluate(X_test,y_test)
 	accuracy = evaluation[1]
+	model.save('sequential_32_Dropout.h5')
 	return accuracy
 
 
 
 if __name__ == "__main__":
 	#print(train("normalized-github-issues.csv"))
-	print(run2("normalized-github-issues.csv"))
+	#print(train_neural_network("normalized-github-issues.csv"))
+	print(run_neural_network(["A few issues while demonstrating Manager to my grandpa on his old iPad."]))
+	print(run_logistic_model(["A few issues while demonstrating Manager to my grandpa on his old iPad."]))

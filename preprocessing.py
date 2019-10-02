@@ -8,11 +8,12 @@ import pickle
 def preprocess(path):
     ''':data a string of the file name (in the same path)
     should return features and labels that we want for training and test'''
+    #-1 low, 0 medium, 1 high
     data = pd.read_csv(path)
     tfidf =  TfidfVectorizer(stop_words="english")
     tfidf2 =  TfidfVectorizer(stop_words="english")
     X = [tfidf.fit_transform(data["issue_title"]),tfidf2.fit_transform(data["body"])]
-    with open('vectorizer.pickle', 'wb') as fin:
+    with open('models/vectorizer.pickle', 'wb') as fin:
         pickle.dump(tfidf2, fin)
     y = data["priority"]
     # new_x = []
